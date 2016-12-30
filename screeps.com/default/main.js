@@ -10,6 +10,7 @@ profiler.enable()
 module.exports.loop = function() {
     profiler.wrap(function() {
         if(room != null) {
+            PathFinder.use(true)
             Game.rooms[room].find(FIND_MY_SPAWNS)[0].memory.buildingM = "Building";
             Game.rooms[room].find(FIND_MY_SPAWNS)[0].memory.repairingM = "Repairing";
             require("prototype")()
