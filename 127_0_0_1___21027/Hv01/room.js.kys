@@ -1,0 +1,195 @@
+var autoSpawner = require("spawner.auto")
+var hive = require("hive")
+
+module.exports = {
+    run: function(roomN) {
+        var room = Game.rooms[roomN]
+        if(room.memory.net == undefined || room.memory.net == null) {room.memory.net = {}}
+        if(room.memory.net.production == undefined || room.memory.net.production == null) {room.memory.net.production = {}}
+        if(room.memory.net.production.inputs == undefined || room.memory.net.production.inputs == null) {room.memory.net.production.inputs = []}
+        if(room.memory.net.training == undefined || room.memory.net.training == null) {room.memory.net.training = {}}
+        if(room.memory.net.training.data == undefined || room.memory.net.training.data == null) {room.memory.net.training.data = []}
+        if(room.memory.net.training.trained == undefined || room.memory.net.training.trained == null) {room.memory.net.training.trained = false}
+        if(global.roomhive == undefined || global.roomhive == null) {global.roomhive = {}}
+        if(global.roomhive.addData == undefined || global.roomhive.addData == null) {global.roomhive.addData = function(roomN, typedCreeps, desiredOutput){require("room").addRoomTData(roomN, typedCreeps, desiredOutput)}}
+        if(global.roomhive.testTrained == undefined || global.roomhive.testTrained == null) {global.roomhive.testTrained = function(roomN, inp) { require("room").testActivateCreeps(roomN, inp)}}
+        if(global.roomhive.train == undefined || global.roomhive.train == null) {global.roomhive.train = function(roomN) {require("room").testTrainCreeps(roomN)}}
+        if(global.roomhive.maketrainerf == undefined || global.roomhive.maketrainerf == null) {global.roomhive.maketrainerf = function(roomN) {
+            roomhive.addData("W5N8", {harvester: 3, builder: 2, upgrader: 2, mechanic: 2}, [0, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 2, upgrader: 2, mechanic: 1}, [0, 0, 0, 1])
+            roomhive.addData("W5N8", {harvester: 3, builder: 2, upgrader: 2, mechanic: 0}, [0, 0, 0, 1])
+            roomhive.addData("W5N8", {harvester: 3, builder: 2, upgrader: 1, mechanic: 2}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 2, upgrader: 1, mechanic: 1}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 2, upgrader: 1, mechanic: 0}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 2, upgrader: 0, mechanic: 2}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 2, upgrader: 0, mechanic: 1}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 2, upgrader: 0, mechanic: 0}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 1, upgrader: 2, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 1, upgrader: 2, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 1, upgrader: 2, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 1, upgrader: 1, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 1, upgrader: 1, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 1, upgrader: 1, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 1, upgrader: 0, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 1, upgrader: 0, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 1, upgrader: 0, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 0, upgrader: 2, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 0, upgrader: 2, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 0, upgrader: 2, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 0, upgrader: 1, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 0, upgrader: 1, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 0, upgrader: 1, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 0, upgrader: 0, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 0, upgrader: 0, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 3, builder: 0, upgrader: 0, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 2, upgrader: 2, mechanic: 2}, [0, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 2, upgrader: 2, mechanic: 1}, [0, 0, 0, 1])
+            roomhive.addData("W5N8", {harvester: 2, builder: 2, upgrader: 2, mechanic: 0}, [0, 0, 0, 1])
+            roomhive.addData("W5N8", {harvester: 2, builder: 2, upgrader: 1, mechanic: 2}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 2, upgrader: 1, mechanic: 1}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 2, upgrader: 1, mechanic: 0}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 2, upgrader: 0, mechanic: 2}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 2, upgrader: 0, mechanic: 1}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 2, upgrader: 0, mechanic: 0}, [0, 0, 1, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 1, upgrader: 2, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 1, upgrader: 2, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 1, upgrader: 2, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 1, upgrader: 1, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 1, upgrader: 1, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 1, upgrader: 1, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 1, upgrader: 0, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 1, upgrader: 0, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 1, upgrader: 0, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 0, upgrader: 2, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 0, upgrader: 2, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 0, upgrader: 2, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 0, upgrader: 1, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 0, upgrader: 1, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 0, upgrader: 1, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 0, upgrader: 0, mechanic: 2}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 0, upgrader: 0, mechanic: 1}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 2, builder: 0, upgrader: 0, mechanic: 0}, [0, 1, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 2, upgrader: 2, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 2, upgrader: 2, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 2, upgrader: 2, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 2, upgrader: 1, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 2, upgrader: 1, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 2, upgrader: 1, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 2, upgrader: 0, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 2, upgrader: 0, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 2, upgrader: 0, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 1, upgrader: 2, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 1, upgrader: 2, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 1, upgrader: 2, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 1, upgrader: 1, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 1, upgrader: 1, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 1, upgrader: 1, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 1, upgrader: 0, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 1, upgrader: 0, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 1, upgrader: 0, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 0, upgrader: 2, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 0, upgrader: 2, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 0, upgrader: 2, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 0, upgrader: 1, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 0, upgrader: 1, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 0, upgrader: 1, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 0, upgrader: 0, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 0, upgrader: 0, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 1, builder: 0, upgrader: 0, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 2, upgrader: 2, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 2, upgrader: 2, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 2, upgrader: 2, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 2, upgrader: 1, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 2, upgrader: 1, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 2, upgrader: 1, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 2, upgrader: 0, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 2, upgrader: 0, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 2, upgrader: 0, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 1, upgrader: 2, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 1, upgrader: 2, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 1, upgrader: 2, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 1, upgrader: 1, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 1, upgrader: 1, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 1, upgrader: 1, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 1, upgrader: 0, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 1, upgrader: 0, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 1, upgrader: 0, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 0, upgrader: 2, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 0, upgrader: 2, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 0, upgrader: 2, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 0, upgrader: 1, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 0, upgrader: 1, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 0, upgrader: 1, mechanic: 0}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 0, upgrader: 0, mechanic: 2}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 0, upgrader: 0, mechanic: 1}, [1, 0, 0, 0])
+            roomhive.addData("W5N8", {harvester: 0, builder: 0, upgrader: 0, mechanic: 0}, [1, 0, 0, 0])
+        }}
+    },
+    updateRoomNetwork: function(roomN) {
+        var room = Game.rooms[roomN]
+        var creeps = room.find(FIND_MY_CREEPS)
+        var types = room.countCreeps()
+        var inputs = []
+        var nextInputIndex = 0;
+        if(creeps.length > 200) {
+            console.log("ERROR ERROR ERROR")
+            console.log("ROOM.CREEPS.LENGTH > 200")
+            Game.notify("ERROR ERROR ERROR\nROOM.CREEPS.LENGTH > 200")
+            return
+        } else {
+            inputs[nextInputIndex] = creeps.length / 200
+            nextInputIndex = 1
+        }
+        var names = autoSpawner.getNames()
+        for(var ni in names) {
+            var name = names[ni]
+            inputs[nextInputIndex] = types[name] / 200
+            nextInputIndex++
+        }
+        room.memory.net.production.inputs = inputs
+    },
+    clearRoomTDData(roomN) {
+        var room = Game.rooms[roomN]
+        room.memory.net.training.data = []
+    },
+    addRoomTData: function(roomN, typedCreeps, desiredOutput) {
+        var room = Game.rooms[roomN];
+        var tin = []
+        var nextInputIndex = 0;
+        tin[0] = _.sum(typedCreeps) / 200
+        nextInputIndex = 1
+        var names = autoSpawner.getNames()
+        for (var i = 0; i < names.length; i++) {
+            tin[nextInputIndex] = typedCreeps[i] / 200
+            nextInputIndex++
+        }
+        // for (var tcrp in typedCreeps) {
+        //     if (typedCreeps.hasOwnProperty(tcrp)) {
+        //         tin[nextInputIndex] = typedCreeps[tcrp] / 200
+        //         nextInputIndex++
+        //     }
+        // }
+        room.memory.net.training.data.push({input: tin, output: desiredOutput})
+    },
+    createNetwork: function(roomN, inp, hid, out) {
+        return hive.createNetwork(inp, hid, out)
+    },
+    testTrainCreeps: function(roomN) {
+        var room = Game.rooms[roomN]
+        var net = hive.createNetwork(5, 5, 4)
+        net.trainer.train(room.memory.net.training.data)
+        room.memory.net.training.trained = net.perceptron.toJSON()
+    },
+    testActivateCreeps: function(roomN, inp) {
+        var room = Game.rooms[roomN]
+        var net = hive.getNetwork(room.memory.net.training.trained)
+        var ret = net.activate(inp)
+        for (var r in ret) {
+            if (ret.hasOwnProperty(r)) {
+                var re = ret[r]
+                console.log("Inputs: " + JSON.stringify(inp))
+                console.log("Outputs: " + JSON.stringify(re))
+            }
+        }
+    }
+}
